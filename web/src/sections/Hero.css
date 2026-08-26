@@ -1,0 +1,110 @@
+.hero {
+  position: relative;
+  padding: clamp(var(--space-12), 6vw, var(--space-24)) 0 var(--space-16);
+  overflow: hidden;
+}
+
+/*
+  One light source, behind and left of the headline, bleeding off the top.
+
+  A centred radial gradient behind a centred hero is the default look of every
+  generated landing page. Placing the light off-axis — and letting it clip —
+  reads as a lit room rather than a wallpaper.
+*/
+.hero__glow {
+  position: absolute;
+  top: -340px;
+  left: -180px;
+  width: 900px;
+  height: 720px;
+  pointer-events: none;
+  background: radial-gradient(
+    46% 46% at 50% 50%,
+    rgba(124, 108, 255, 0.2) 0%,
+    rgba(124, 108, 255, 0.07) 42%,
+    transparent 72%
+  );
+  filter: blur(12px);
+}
+
+.hero__inner {
+  position: relative;
+  display: grid;
+  /* Asymmetric on purpose. A 50/50 split is the shape of a template. */
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.hero__copy {
+  max-width: 34rem;
+}
+
+.hero__chip {
+  margin-bottom: var(--space-6);
+}
+
+.hero__chip-skeleton {
+  width: 148px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-6);
+}
+
+.hero__chip-divider {
+  width: 1px;
+  height: 12px;
+  background: var(--accent-line);
+}
+
+.hero__lede {
+  margin-top: var(--space-6);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-10);
+}
+
+.hero__foot {
+  margin: var(--space-5) 0 0;
+  font-size: 13.5px;
+  color: var(--text-tertiary);
+}
+
+.hero__scene {
+  position: relative;
+  /* Pushed toward the edge so the scene feels like it continues past the page
+     rather than sitting politely in a column. */
+  margin-right: calc(var(--space-10) * -1);
+}
+
+@media (max-width: 1040px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+
+  .hero__copy {
+    max-width: 40rem;
+  }
+
+  .hero__scene {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .hero__actions .btn {
+    /* Full-width stacked buttons on a phone: a 44px tap target that spans the
+       column is far easier to hit than two half-width ones. */
+    width: 100%;
+  }
+}

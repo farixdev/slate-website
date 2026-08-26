@@ -1,0 +1,142 @@
+/*
+  The hero scene.
+
+  The important part of this file is that `scene__touch` and `scene__cursor`
+  share one duration, one timing function and one set of eight waypoints. The
+  waypoints are normalised fractions mapped onto two rectangles:
+
+      finger   x = 70  + fx * 130     y = 215 + fy * 170   (the phone's pad)
+      cursor   x = 240 + fx * 340     y = 70  + fy * 190   (the monitor's screen)
+
+  Keep them in step. If one set is edited without the other the illusion breaks
+  and the scene starts arguing with the product's whole claim.
+*/
+
+.scene {
+  position: relative;
+  width: 100%;
+  max-width: 660px;
+  filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.55));
+}
+
+.scene svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Waypoints ---------------------------------------------------------------- */
+
+@keyframes scene-finger {
+  0%   { transform: translate(83px, 342px); }
+  14%  { transform: translate(114px, 300px); }
+  28%  { transform: translate(142px, 320px); }
+  42%  { transform: translate(171px, 266px); }
+  56%  { transform: translate(148px, 242px); }
+  70%  { transform: translate(113px, 273px); }
+  84%  { transform: translate(93px, 317px); }
+  100% { transform: translate(83px, 342px); }
+}
+
+@keyframes scene-cursor {
+  0%   { transform: translate(274px, 212px); }
+  14%  { transform: translate(356px, 165px); }
+  28%  { transform: translate(427px, 188px); }
+  42%  { transform: translate(505px, 127px); }
+  56%  { transform: translate(444px, 100px); }
+  70%  { transform: translate(352px, 135px); }
+  84%  { transform: translate(301px, 184px); }
+  100% { transform: translate(274px, 212px); }
+}
+
+/* 14s is deliberately slow. A fast loop pulls the eye away from the headline,
+   which is the thing that actually has to be read. */
+.scene__touch {
+  animation: scene-finger 14s var(--ease-in-out) infinite;
+}
+
+.scene__cursor {
+  animation: scene-cursor 14s var(--ease-in-out) infinite;
+}
+
+/* The contact ring, on its own faster clock so the touch reads as live. */
+@keyframes scene-ripple {
+  0%,
+  70% {
+    r: 13;
+    opacity: 0.55;
+  }
+  85% {
+    r: 22;
+    opacity: 0;
+  }
+  100% {
+    r: 13;
+    opacity: 0.55;
+  }
+}
+
+.scene__ripple {
+  animation: scene-ripple 3.5s var(--ease-out) infinite;
+  transform-origin: center;
+}
+
+/* The status dots on both devices. Slow, shallow — a heartbeat, not a blink. */
+@keyframes scene-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.scene__pulse-dot {
+  animation: scene-pulse 2.6s var(--ease-in-out) infinite;
+}
+
+/* The wireless link, drawn as travelling dashes. */
+@keyframes scene-link {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+
+.scene__link {
+  animation: scene-link 1.6s linear infinite;
+}
+
+/* The latency trace draws itself once on load, then holds. */
+@keyframes scene-trace {
+  from {
+    stroke-dashoffset: 300;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.scene__trace {
+  stroke-dasharray: 300;
+  animation: scene-trace 2.2s var(--ease-out) 0.4s both;
+}
+
+/*
+  With reduced motion the scene still has to make sense, so nothing is hidden —
+  the finger and the cursor simply stop at the first waypoint, which is a
+  correct still frame of the same idea.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .scene__touch {
+    transform: translate(83px, 342px);
+  }
+
+  .scene__cursor {
+    transform: translate(274px, 212px);
+  }
+
+  .scene__trace {
+    stroke-dasharray: none;
+  }
+}

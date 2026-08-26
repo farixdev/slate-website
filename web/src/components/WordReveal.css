@@ -1,0 +1,39 @@
+.reveal__word {
+  display: inline-block;
+  overflow: hidden;
+
+  /*
+    Descenders — the y in "Your", the p in "phone" — hang below the baseline and
+    would be sliced off by the overflow that makes the reveal work. The padding
+    gives them room and the negative margin takes that room back out of the
+    layout, so line spacing is unchanged.
+  */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+  vertical-align: bottom;
+}
+
+.reveal__inner {
+  display: inline-block;
+  transform: translateY(105%);
+  opacity: 0;
+  animation: reveal-word 0.82s var(--ease-out) forwards;
+}
+
+@keyframes reveal-word {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* The global reduced-motion rule collapses animation duration to ~0, which with
+   `forwards` still lands on the final frame. This states it outright so the
+   headline is visible even if that rule is ever changed. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal__inner {
+    animation: none;
+    transform: none;
+    opacity: 1;
+  }
+}

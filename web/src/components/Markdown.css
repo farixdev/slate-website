@@ -1,0 +1,83 @@
+.md {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.md > *:first-child {
+  margin-top: 0;
+}
+
+.md > *:last-child {
+  margin-bottom: 0;
+}
+
+.md h3 {
+  margin: var(--space-10) 0 var(--space-4);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.md h4 {
+  margin: var(--space-8) 0 var(--space-3);
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.014em;
+  color: var(--text);
+}
+
+.md h5 {
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.md p {
+  margin: 0 0 var(--space-4);
+  max-width: 68ch;
+}
+
+.md ul {
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  max-width: 68ch;
+}
+
+.md li {
+  position: relative;
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+/* A hairline dash rather than a bullet glyph. Reads as a spec sheet, and lines
+   up with the mono labels used elsewhere on the site. */
+.md li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 10px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+.md strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.md code {
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  color: #b9b1ff;
+}

@@ -1,0 +1,33 @@
+/* Page-level rules that are not tokens and not shared layout. */
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root > * {
+  flex-shrink: 0;
+}
+
+main {
+  flex: 1;
+}
+
+/*
+  A very faint grain over the whole page.
+
+  Large flat dark areas band badly on 8-bit panels — you see the gradient behind
+  the hero as stripes rather than as light. A little noise dithers it away, and
+  it also takes the plastic sheen off the surfaces. It has to be inert to
+  pointer events or it eats every click on the page.
+*/
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.019;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}

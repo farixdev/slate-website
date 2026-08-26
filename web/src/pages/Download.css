@@ -1,0 +1,262 @@
+.download__head {
+  margin-bottom: var(--space-8);
+}
+
+.download__title {
+  margin-bottom: var(--space-5);
+}
+
+.download__version {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-8);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.download__released {
+  font-size: 13.5px;
+  color: var(--text-tertiary);
+}
+
+.download__all {
+  margin-left: auto;
+  font-size: 13.5px;
+}
+
+.download__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.dl-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-8);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-sunken) 100%);
+}
+
+.dl-card--quiet {
+  border-color: var(--hairline);
+  background: var(--surface-sunken);
+}
+
+.dl-card__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: var(--space-6);
+  border-radius: var(--radius-md);
+  background: var(--accent-wash);
+  border: 1px solid var(--accent-line);
+  color: #a99dff;
+}
+
+.dl-card__icon--quiet {
+  background: var(--surface-raised);
+  border-color: var(--hairline);
+  color: var(--text-tertiary);
+}
+
+.dl-card__platform {
+  margin: 0 0 var(--space-2);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.024em;
+  color: var(--text);
+}
+
+.dl-card__detail {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.62;
+  color: var(--text-tertiary);
+}
+
+.dl-card__meta {
+  display: flex;
+  gap: var(--space-8);
+  margin: var(--space-6) 0 var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--hairline);
+}
+
+/* A link with no size and no filename would otherwise leave a stray rule. */
+.dl-card__meta:empty {
+  display: none;
+}
+
+/* The quiet card has no meta block, so its copy carries the gap instead. */
+.dl-card--quiet .dl-card__detail {
+  margin-bottom: var(--space-8);
+}
+
+.dl-card__meta dt {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+.dl-card__meta dd {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  /* "29 MB" is one value and must never break across two lines. */
+  white-space: nowrap;
+}
+
+/* The filename is the one thing here allowed to wrap, so it is also the one
+   allowed to give up width to its neighbour. */
+.dl-card__meta div:has(.dl-card__filename) {
+  min-width: 0;
+}
+
+.dl-card__filename {
+  /* Asset names are long and must not force the card wider than its column. */
+  overflow-wrap: anywhere;
+}
+
+/*
+  Pushed to the bottom so the buttons line up across cards of different heights —
+  three primary actions on three different baselines looks accidental.
+
+  The gap above the button belongs to whatever sits before it, NOT to a
+  `X + .dl-card__button` rule: an adjacent-sibling `margin-top` overrides the
+  `auto` and the alignment silently stops working.
+*/
+.dl-card__button {
+  margin-top: auto;
+  width: 100%;
+}
+
+.dl-card__checksum {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.dl-card__checksum-label {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.dl-card__checksum code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.dl-card__checksum button {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.dl-card__checksum button:hover {
+  color: var(--text);
+  border-color: var(--hairline-strong);
+}
+
+.dl-card__skeleton {
+  height: 320px;
+  border-radius: var(--radius-lg);
+}
+
+/* Install notes ------------------------------------------------------------ */
+
+.download__notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-12);
+  margin-top: var(--space-20);
+  padding-top: var(--space-12);
+  border-top: 1px solid var(--hairline);
+}
+
+.download__note-title {
+  margin: 0 0 var(--space-5);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.download__note ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: note;
+}
+
+.download__note li {
+  counter-increment: note;
+  position: relative;
+  padding-left: var(--space-8);
+  margin-bottom: var(--space-4);
+  font-size: 14.25px;
+  line-height: 1.66;
+  color: var(--text-secondary);
+  max-width: 56ch;
+}
+
+.download__note li::before {
+  content: counter(note);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--hairline-strong);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 980px) {
+  .download__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .download__notes {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+}
+
+@media (max-width: 660px) {
+  .download__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .download__all {
+    margin-left: 0;
+  }
+}

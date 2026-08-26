@@ -1,0 +1,160 @@
+/*
+  Slate — design tokens.
+
+  The same visual language as the product itself: a cool graphite ground lit by
+  a single iris-to-aqua accent. The site and the app should look like one thing,
+  because they are.
+
+  Two rules do most of the work here, and they are what keep this from reading
+  as a template:
+
+  1. One accent, used sparingly. It appears on the primary action, the active
+     nav item, and the light under the hero — and essentially nowhere else.
+     A page where six things glow is a page where nothing is important.
+  2. Hairlines, not boxes. Structure comes from 1px rules and generous space
+     rather than from cards with borders and shadows stacked on cards.
+*/
+
+:root {
+  /* Ground. Blue-shifted rather than neutral: a pure grey next to a saturated
+     accent reads as cheap, a ground sharing the accent's hue family does not. */
+  --canvas: #08090d;
+  --surface: #101220;
+  --surface-raised: #171a2b;
+  --surface-sunken: #0b0c14;
+
+  --hairline: #1e2233;
+  --hairline-strong: #2c3149;
+
+  --text: #edeff7;
+  --text-secondary: #9aa0b8;
+  --text-tertiary: #666d85;
+
+  --accent: #7c6cff;
+  --accent-alt: #3ed6c5;
+  --accent-ink: #0a0b12;
+  --accent-wash: rgba(124, 108, 255, 0.1);
+  --accent-line: rgba(124, 108, 255, 0.24);
+
+  --success: #3dd68c;
+  --warning: #f5a524;
+  --danger: #f5566b;
+
+  --gradient-accent: linear-gradient(135deg, #7c6cff 0%, #3ed6c5 100%);
+
+  /* Type. Inter for everything readable, JetBrains Mono for anything that is
+     a value rather than a sentence — versions, sizes, checksums, keys. */
+  --font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo,
+    monospace;
+
+  /* A four-point scale, the same one the app uses. Nothing is nudged by an
+     arbitrary number. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+  --radius-pill: 999px;
+
+  /* Wide and very soft. A tight shadow reads as a sticker on the page; a
+     diffuse one reads as a surface with air beneath it. */
+  --shadow-resting: 0 6px 24px -6px rgba(0, 0, 0, 0.5);
+  --shadow-raised: 0 18px 48px -12px rgba(0, 0, 0, 0.62);
+  --shadow-accent: 0 12px 32px -10px rgba(124, 108, 255, 0.42);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 160ms;
+  --duration-normal: 280ms;
+  --duration-slow: 480ms;
+
+  --page-max: 1120px;
+  --prose-max: 680px;
+}
+
+/* Light theme is deliberately not offered. This is one page that people arrive
+   at from a link, look at for ninety seconds, and leave; a theme switcher is a
+   control that costs more to maintain than it earns. The product itself has
+   both themes, which is where it matters. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Honour the setting rather than merely shortening things. Several
+     components here animate on scroll, and for someone who gets motion sick
+     that is the whole problem. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis-weight: none;
+}
+
+::selection {
+  background: rgba(124, 108, 255, 0.32);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}

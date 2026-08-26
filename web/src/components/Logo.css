@@ -1,0 +1,15 @@
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--text);
+}
+
+.wordmark__text {
+  font-size: 18px;
+  font-weight: 620;
+  /* Tightened. At this size the default tracking makes a five-letter word look
+     like it is drifting apart. */
+  letter-spacing: -0.026em;
+  line-height: 1;
+}
