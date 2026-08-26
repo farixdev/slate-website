@@ -158,6 +158,15 @@ function PlatformCard({ link }: { link: DownloadLink }) {
         after the redirect path. It is only a hint across origins, which is
         exactly why the server also sends the real filename.
       */}
+      {/*
+        The checksum is metadata, so it belongs with the size and the filename
+        rather than dangling under the action. It also has to come before the
+        button: the button is aligned to the bottom of the card with `auto`
+        margin, and anything after it pushes the button up — which left the iOS
+        card's button forty pixels out of line with the other two.
+      */}
+      {link.checksum && <Checksum value={link.checksum} />}
+
       <ButtonAnchor
         href={downloadHref(link)}
         download={link.filename || undefined}
@@ -168,8 +177,6 @@ function PlatformCard({ link }: { link: DownloadLink }) {
       >
         {link.label}
       </ButtonAnchor>
-
-      {link.checksum && <Checksum value={link.checksum} />}
     </article>
   );
 }
