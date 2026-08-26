@@ -1,7 +1,7 @@
 {
-  "name": "api",
+  "name": "server",
   "version": "0.0.1",
-  "description": "",
+  "description": "Slate marketing site API: releases, changelogs and download redirects.",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -18,7 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "hash-password": "node scripts/hash-password.js"
+    "hash-password": "node scripts/hash-password.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "db:push": "nest build && node dist/scripts/push-schema.js",
+    "db:seed": "nest build && node dist/scripts/seed.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -30,11 +33,13 @@
     "@nestjs/serve-static": "^5.0.5",
     "@nestjs/typeorm": "^11.0.3",
     "bcryptjs": "^3.0.3",
-    "better-sqlite3": "^12.11.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^1.1.0"
@@ -82,5 +87,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "optionalDependencies": {
+    "better-sqlite3": "^12.11.1"
   }
 }

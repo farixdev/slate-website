@@ -1,0 +1,22 @@
+{
+  "//": "Compiler options for api/index.ts, which Vercel compiles in place. The server and the web app each have their own tsconfig and are built by their own toolchains; this one covers only the function entry. Deliberately no `paths` and no project references \u2014 Vercel's in-place TypeScript compilation supports neither, and a path alias here would compile to a bare require() that fails at runtime rather than at build time.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": [
+      "ES2022"
+    ],
+    "module": "node16",
+    "moduleResolution": "node16",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "api/**/*.ts"
+  ]
+}

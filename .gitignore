@@ -12,11 +12,14 @@ build/
 .env.local
 .env.*.local
 
-# The SQLite database and anything uploaded through the admin panel. This is
-# runtime content, not source: committing it would ship one machine's release
-# list to every other machine.
-api/data/
-!api/data/.gitkeep
+# The local SQLite database and anything uploaded through the admin panel. This
+# is runtime content, not source: committing it would ship one machine's release
+# list to every other machine. Production uses Postgres and has no such file.
+server/data/
+!server/data/.gitkeep
+
+# Vercel's local build output and linked-project metadata.
+.vercel/
 
 # Logs
 *.log

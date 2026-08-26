@@ -1,0 +1,30 @@
+{
+  "name": "slate-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Marketing site and admin panel for Slate.",
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build --workspace server && npm run build --workspace web",
+    "db:push": "npm run db:push --workspace server",
+    "db:seed": "npm run db:seed --workspace server",
+    "dev": "concurrently -n api,web -c magenta,cyan \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm run start:dev --workspace server",
+    "dev:web": "npm run dev --workspace web",
+    "hash-password": "npm run hash-password --workspace server",
+    "typecheck": "npm run typecheck --workspace server && npm run typecheck --workspace web"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.2.2"
+  }
+}
