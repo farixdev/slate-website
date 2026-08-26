@@ -40,7 +40,9 @@ export class SeedService implements OnApplicationBootstrap {
           detail: 'Windows 10 and 11 · 64-bit',
           url: `${GITHUB}/Slate-1.0.0-windows-x64.zip`,
           filename: 'Slate-1.0.0-windows-x64.zip',
-          size: '29 MB',
+          size: '9.0 MB',
+          checksum:
+            '34472b9e0d8b5bec7c08ff2d2fbf89224f37fdfefe3e726e139426d7381c52e5',
           sortOrder: 0,
         }),
         this.links.create({
@@ -50,6 +52,8 @@ export class SeedService implements OnApplicationBootstrap {
           url: `${GITHUB}/Slate-1.0.0-android.apk`,
           filename: 'Slate-1.0.0-android.apk',
           size: '63.2 MB',
+          checksum:
+            '518e2ac8f7be2d2f9eb9bdd5774c7e72c0ed5526c4d36d98df430d55cef75705',
           sortOrder: 1,
         }),
       ],
