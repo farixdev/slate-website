@@ -43,7 +43,25 @@ export function buildDataSourceOptions(
   if (config.database.url) {
     return {
       type: 'postgres',
-      url: config.database.url,
+      url: prepareUrl(config.database.url),
+
+      /*
+        The Postgres driver is handed over explicitly, and that is not a style
+        choice — without it the deployed function cannot connect at all.
+
+        TypeORM loads its driver through `PlatformTools.load(name)`, which is
+        `require(name)` on a *variable*. Vercel builds a function by statically
+        tracing the requires it can see from the entry file, and a require whose
+        argument is a variable is invisible to that trace. So `pg` and every
+        `pg-*` package would simply not be in the bundle, and the first request
+        would fail with "Postgres package has not been found installed" —
+        naming a package that is right there in package.json.
+
+        TypeORM checks `options.driver` before falling back to that dynamic
+        load, so a literal `require('pg')` here both satisfies the driver and
+        gives the tracer something it can follow.
+      */
+      driver: require('pg'),
       entities,
       synchronize,
       logging: config.database.logging,
@@ -56,12 +74,13 @@ export function buildDataSourceOptions(
         copied-around configuration uses — gives up precisely the protection
         TLS exists to provide.
 
-        A caveat worth knowing: this option only applies when the connection
-        string carries no SSL parameters of its own. TypeORM hands both the
-        connection string and this option to node-postgres, and node-postgres
-        re-parses the string over the top, so any `sslmode=` in the URL wins.
-        That is why the setup notes ask for `?sslmode=verify-full` on the URL —
-        then the strongest setting is the one that survives either path.
+        This option only takes effect when the connection string carries no SSL
+        parameters of its own. TypeORM passes both the string and this option to
+        node-postgres, which re-parses the string over the top and *replaces*
+        `ssl` wholesale if the URL mentions `sslmode` at all. That is why
+        `prepareUrl` strips those parameters when an override is asked for —
+        otherwise the override would be silently discarded, which is worse than
+        not offering one.
       */
       ssl: resolveSsl(),
 
@@ -135,6 +154,36 @@ export function schemaChangeUrl(config: DatabaseEnvironment): string | undefined
     process.env.DIRECT_DATABASE_URL ??
     config.database.url
   );
+}
+
+/**
+ * Removes SSL parameters from the connection string when an override is set.
+ *
+ * node-postgres replaces the whole `ssl` option with its own object the moment
+ * it sees `sslmode` (or any `ssl*` parameter) in the URL, so an explicit
+ * setting passed alongside is thrown away without a word. Anyone who set
+ * `DATABASE_SSL_NO_VERIFY` to get past a certificate problem would watch it
+ * make no difference and have nothing to go on.
+ *
+ * Untouched in the ordinary case, so `?sslmode=verify-full` keeps doing exactly
+ * what it says.
+ */
+function prepareUrl(url: string): string {
+  const overriding =
+    process.env.DATABASE_SSL_NO_VERIFY === 'true' ||
+    process.env.DATABASE_SSL === 'false';
+  if (!overriding) return url;
+
+  try {
+    const parsed = new URL(url);
+    for (const key of [...parsed.searchParams.keys()]) {
+      if (key.toLowerCase().startsWith('ssl')) parsed.searchParams.delete(key);
+    }
+    return parsed.toString();
+  } catch {
+    // Not a parseable URL. Leave it alone and let the driver complain about it.
+    return url;
+  }
 }
 
 /** TLS for the Postgres connection. See the note on `ssl` above. */

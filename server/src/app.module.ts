@@ -9,7 +9,17 @@ import { buildDataSourceOptions } from './database/data-source';
 import { AuthModule } from './auth/auth.module';
 import { ReleasesModule } from './releases/releases.module';
 
-const clientDir = join(__dirname, '..', '..', 'web', 'dist');
+/*
+  Where the built site lives, relative to the compiled server.
+
+  Assembled through an environment lookup rather than written as one constant
+  path. Vercel builds the function by statically tracing it, and a fully literal
+  `join(__dirname, '..', '..', 'web', 'dist')` is resolvable enough that the
+  tracer follows it and packs the entire built site — every font, the bundle and
+  its two-megabyte source map — inside the function. None of it is ever served
+  from there; on Vercel the site comes off the CDN.
+*/
+const clientDir = join(__dirname, '..', '..', process.env.SLATE_CLIENT_DIR ?? 'web', 'dist');
 
 /**
  * Whether this process should also serve the built site.

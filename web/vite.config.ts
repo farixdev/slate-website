@@ -1,9 +1,33 @@
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
+
+/**
+ * Fills in `%VITE_SITE_URL%` in index.html.
+ *
+ * Vite's own placeholder substitution reads .env files, and .env is gitignored
+ * here — so on a deploy there would be no file, the placeholder would survive
+ * into the built HTML verbatim, and every link preview would point at a URL
+ * containing a literal percent sign. Reading the environment directly works the
+ * same way locally (unset, so empty) and on the host (set, so absolute).
+ *
+ * Empty is a fine default: the tag falls back to a relative `/og.png`, which
+ * most scrapers resolve against the page. Set VITE_SITE_URL to the deployed
+ * origin for the ones that do not.
+ */
+function siteUrl(): Plugin {
+  const value = (process.env.VITE_SITE_URL ?? '').replace(/\/$/, '');
+  return {
+    name: 'slate-site-url',
+    transformIndexHtml: {
+      order: 'pre',
+      handler: (html) => html.replaceAll('%VITE_SITE_URL%', value),
+    },
+  };
+}
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), siteUrl()],
 
   server: {
     port: 5173,

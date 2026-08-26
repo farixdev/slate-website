@@ -111,6 +111,7 @@ and **Preview**.
 | `JWT_SECRET` | **yes** | 32+ random characters — see below |
 | `ADMIN_USERNAME` | no | defaults to `admin` |
 | `ADMIN_PASSWORD_HASH` | **yes** | a bcrypt hash — see below |
+| `VITE_SITE_URL` | no | the deployed origin, e.g. `https://slate.vercel.app` — makes the link-preview image URL absolute |
 
 Generate the session secret:
 
@@ -339,6 +340,13 @@ that another one issued.
 
 **`db:push` hangs or errors about locks.** It is pointed at the pooled endpoint.
 Use the direct one, via `DATABASE_URL_UNPOOLED`.
+
+**Every `/api` route returns 500 saying the Postgres package is not installed.**
+It is installed — the driver is handed to TypeORM explicitly in
+`server/src/database/data-source.ts` precisely so Vercel's bundler can see it.
+If that line is ever removed, TypeORM falls back to loading the driver by a name
+held in a variable, which the bundler cannot follow, and `pg` is left out of the
+deployed function entirely.
 
 **The first request after a quiet period is slow.** Neon suspends an idle
 compute and waking it takes a few hundred milliseconds; a Vercel cold start is

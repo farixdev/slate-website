@@ -42,6 +42,23 @@ async function createHandler(): Promise<express.Express> {
     // put a copy of Nest's whole startup banner in front of every cold start's
     // logs. Warnings and errors are the parts anyone reads.
     logger: ['warn', 'error'],
+
+    /*
+      Without this, a failure while building the application calls
+      `process.exit(1)`.
+
+      That default suits a server you are watching start up. In a function it is
+      the difference between a useful error and none at all: Nest tears the
+      process down inside its exception zone, so this promise never settles, the
+      handler's try/catch never runs, and the visitor gets the platform's
+      generic error page instead of a message naming the environment variable
+      that is missing. Which is exactly the situation — a missing JWT_SECRET or
+      DATABASE_URL — where the message is the whole point.
+
+      `false` makes Nest rethrow instead, so the failure travels back to the
+      caller and is reported properly.
+    */
+    abortOnError: false,
   });
 
   applyAppSettings(app);
