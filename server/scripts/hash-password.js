@@ -9,12 +9,9 @@ if (!password) {
 }
 if (password.length < 10) {
   console.error(
-    'Use at least 10 characters.
-
-' +
-      'This password is the only thing standing between a stranger and the ' +
-      'admin panel, and whoever reaches that decides where every Download ' +
-      'button on the site points.',
+    'Use at least 10 characters. This password is the only thing standing ' +
+      'between a stranger and the admin panel, and whoever reaches that ' +
+      'decides where every Download button on the site points.',
   );
   process.exit(1);
 }
