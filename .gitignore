@@ -35,3 +35,9 @@ pnpm-debug.log*
 Thumbs.db
 *.suo
 *.sw?
+
+# This is an npm workspace. A second lockfile confuses package-manager
+# detection on the host.
+pnpm-lock.yaml
+yarn.lock
+bun.lockb
