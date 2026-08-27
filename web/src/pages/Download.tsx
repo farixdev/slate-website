@@ -31,7 +31,7 @@ const INSTALL_NOTES: Partial<Record<Platform, string[]>> = {
   ],
   android: [
     'Open the .apk and allow installs from your browser if Android asks.',
-    'This build is signed with a release key but is not distributed through Play, so Play Protect will ask you to confirm once.',
+    'It is signed with a development key, not a Play Store one, so Android will warn you before installing. That warning is accurate: only install it if you trust where you got it from.',
     'Give it permission to use the camera only if you want to pair by QR code.',
   ],
 };

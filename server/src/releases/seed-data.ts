@@ -52,9 +52,9 @@ export const FIRST_RELEASE: DeepPartial<Release> = {
       detail: 'Windows 10 and 11 · 64-bit',
       url: `${GITHUB}/Slate-1.0.0-windows-x64.zip`,
       filename: 'Slate-1.0.0-windows-x64.zip',
-      size: '9.0 MB',
+      size: '11.9 MB',
       checksum:
-        '34472b9e0d8b5bec7c08ff2d2fbf89224f37fdfefe3e726e139426d7381c52e5',
+        'ffbf4b1f0cb5aab3646e0afed92a07e8bf7c848333784b62862f072d738d636d',
       sortOrder: 0,
     },
     {
