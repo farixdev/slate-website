@@ -19,7 +19,7 @@ import { ReleasesModule } from './releases/releases.module';
   its two-megabyte source map — inside the function. None of it is ever served
   from there; on Vercel the site comes off the CDN.
 */
-const clientDir = join(__dirname, '..', '..', process.env.SLATE_CLIENT_DIR ?? 'web', 'dist');
+const clientDir = join(__dirname, '..', '..', process.env.SLATE_CLIENT_DIR ?? 'dist');
 
 /**
  * Whether this process should also serve the built site.

@@ -4,6 +4,7 @@ node_modules/
 # Build output
 dist/
 build/
+/dist
 
 # Secrets and local state.
 # .env holds the admin password hash and the JWT signing secret. Nothing in it

@@ -50,7 +50,19 @@ export default defineConfig({
   },
 
   build: {
-    outDir: 'dist',
+    /*
+      The site is built to `dist/` at the REPOSITORY root, not inside web/.
+
+      That is the one place Vercel looks for static output when nothing tells
+      it otherwise. Emitting to web/dist meant the correct path lived only in
+      vercel.json, and the moment that file was not applied the deploy failed
+      with "No Output Directory named dist" after a build that had actually
+      succeeded. Putting the output where the default already points means the
+      configuration and the fallback agree, so there is nothing left to
+      disagree about.
+    */
+    outDir: '../dist',
+    emptyOutDir: true,
     // Source maps make a production stack trace readable, and this bundle has
     // nothing in it worth hiding.
     sourcemap: true,

@@ -8,7 +8,7 @@ One repository, three parts:
 
 | | |
 |---|---|
-| `web/` | React + Vite. The public pages and the admin panel, one bundle. Builds to `web/dist`. |
+| `web/` | React + Vite. The public pages and the admin panel, one bundle. Builds to `dist/` at the repository root. |
 | `server/` | NestJS + TypeORM. The JSON API and the download redirects. Builds to `server/dist`. |
 | `api/index.ts` | The Vercel entry point. Twenty lines that hand a request to the compiled NestJS app. |
 
@@ -93,7 +93,7 @@ them:
 "framework": null,
 "installCommand": "npm install",
 "buildCommand": "npm run build",
-"outputDirectory": "web/dist"
+"outputDirectory": "dist"
 ```
 
 `npm install` at the root installs both workspaces; `npm run build` compiles the
@@ -217,7 +217,7 @@ The function receives the **original** path, not `/api`, which is what lets Nest
 route normally.
 
 The second rewrite is also what makes deep links work. Locally the NestJS server
-serves `web/dist` and falls back to `index.html`; on Vercel it does not — the
+serves `dist/` and falls back to `index.html`; on Vercel it does not — the
 static files never reach the function. Without that line, `/changelog` and
 `/admin` would 404 on a hard refresh while working perfectly in `npm run dev`.
 

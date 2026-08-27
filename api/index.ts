@@ -2,8 +2,8 @@
   The Vercel entry point.
 
   Everything the browser asks for under /api arrives here. The site itself does
-  not — Vercel serves web/dist straight from its CDN and those requests never
-  reach this function.
+  not — Vercel serves the built site straight from its CDN and those requests
+  never reach this function.
 
   Three things about this file are deliberate and easy to get wrong:
 
