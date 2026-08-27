@@ -46,6 +46,21 @@ export interface AppConfig {
 }
 
 /**
+ * Reads an environment variable, treating an empty one as absent.
+ *
+ * Hosting dashboards make it very easy to end up with a variable that exists
+ * and holds nothing — pasting a .env file imports every key in it, blanks
+ * included. An empty string is not nullish, so `process.env.X ?? fallback`
+ * hands back the empty string and the fallback never runs. That turns into
+ * an admin account with a blank username, or a token lifetime of "", which
+ * fail in ways that look nothing like their cause.
+ */
+function env(name: string): string | undefined {
+  const value = process.env[name];
+  return value === undefined || value.trim() === '' ? undefined : value;
+}
+
+/**
  * A signing secret that must be identical everywhere.
  *
  * Locally, a random secret per boot is a good default: it fails visibly — you
@@ -59,7 +74,7 @@ export interface AppConfig {
  * is loud rather than silently papered over.
  */
 function resolveJwtSecret(serverless: boolean, production: boolean): string {
-  const configured = process.env.JWT_SECRET;
+  const configured = env('JWT_SECRET');
   if (configured && configured.length >= 32) return configured;
 
   if (configured) {
@@ -100,8 +115,8 @@ export function readDatabaseConfig(): AppConfig['database'] {
   return {
     // Neon, or any other Postgres. Absent locally, where SQLite is used so a
     // fresh clone runs with no credentials and no network.
-    url: process.env.DATABASE_URL,
-    sqlitePath: process.env.DATABASE_PATH ?? 'data/slate.sqlite',
+    url: env('DATABASE_URL'),
+    sqlitePath: env('DATABASE_PATH') ?? 'data/slate.sqlite',
     logging: process.env.DATABASE_LOGGING === 'true',
   };
 }
@@ -111,17 +126,17 @@ export default (): AppConfig => {
   const production = process.env.NODE_ENV === 'production';
 
   return {
-    port: parseInt(process.env.PORT ?? '3000', 10),
+    port: parseInt(env('PORT') ?? '3000', 10),
     serverless,
     production,
 
     jwtSecret: resolveJwtSecret(serverless, production),
-    jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '12h',
+    jwtExpiresIn: env('JWT_EXPIRES_IN') ?? '12h',
 
     admin: {
-      username: process.env.ADMIN_USERNAME ?? 'admin',
-      passwordHash: process.env.ADMIN_PASSWORD_HASH,
-      password: process.env.ADMIN_PASSWORD,
+      username: env('ADMIN_USERNAME') ?? 'admin',
+      passwordHash: env('ADMIN_PASSWORD_HASH'),
+      password: env('ADMIN_PASSWORD'),
     },
 
     database: readDatabaseConfig(),
@@ -130,7 +145,7 @@ export default (): AppConfig => {
     // cross-origin call to permit and the safest list is an empty one.
     corsOrigins: serverless
       ? []
-      : (process.env.CORS_ORIGINS ?? 'http://localhost:5173')
+      : (env('CORS_ORIGINS') ?? 'http://localhost:5173')
           .split(',')
           .map((origin) => origin.trim())
           .filter(Boolean),
